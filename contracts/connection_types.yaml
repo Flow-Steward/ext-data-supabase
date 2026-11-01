@@ -1,0 +1,63 @@
+{
+  "connection_types": [
+    {
+      "connection_type_id": "supabase",
+      "display_name": "Supabase",
+      "description": "Fixed HTTPS provider origin. Credentials grant direct database access.",
+      "config_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "project_ref"
+        ],
+        "properties": {
+          "project_ref": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{20}$"
+          },
+          "schema": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,62}$",
+            "default": "public"
+          },
+          "request_timeout_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 15
+          }
+        }
+      },
+      "secret_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "api_key"
+        ],
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8192
+          },
+          "access_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8192
+          }
+        }
+      },
+      "capabilities": {
+        "test_connection": false,
+        "live_request": true,
+        "workflow_trigger": false,
+        "callback_ingress": false
+      },
+      "safety_profile": {
+        "requires_https": true,
+        "requires_host_allowlist": true,
+        "stores_secret_values": false
+      }
+    }
+  ]
+}

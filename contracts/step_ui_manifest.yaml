@@ -1,0 +1,124 @@
+{
+  "forms": [
+    {
+      "operation_id": "list_rows",
+      "title": "List Rows",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "filters",
+          "widget_type": "json",
+          "label": "Filters",
+          "required": false
+        },
+        {
+          "name": "select",
+          "widget_type": "json",
+          "label": "Select",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "widget_type": "integer",
+          "label": "Limit",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "widget_type": "integer",
+          "label": "Offset",
+          "required": false
+        }
+      ]
+    },
+    {
+      "operation_id": "insert_rows",
+      "title": "Insert Rows",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "rows",
+          "widget_type": "json",
+          "label": "Rows",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "upsert_rows",
+      "title": "Upsert Rows",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "rows",
+          "widget_type": "json",
+          "label": "Rows",
+          "required": true
+        },
+        {
+          "name": "on_conflict",
+          "widget_type": "json",
+          "label": "On Conflict",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "update_rows",
+      "title": "Update Rows",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "filters",
+          "widget_type": "json",
+          "label": "Filters",
+          "required": true
+        },
+        {
+          "name": "values",
+          "widget_type": "json",
+          "label": "Values",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "delete_rows",
+      "title": "Delete Rows",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "filters",
+          "widget_type": "json",
+          "label": "Filters",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

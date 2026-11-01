@@ -1,0 +1,431 @@
+{
+  "operations": [
+    {
+      "operation_id": "list_rows",
+      "display_name": "List Rows",
+      "description": "List Rows in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "supabase"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "filters",
+          "value_type": "json",
+          "required": false,
+          "display_name": "Filters",
+          "schema": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "name": "select",
+          "value_type": "json",
+          "required": false,
+          "display_name": "Select",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        },
+        {
+          "name": "limit",
+          "value_type": "integer",
+          "required": false,
+          "display_name": "Limit",
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          }
+        },
+        {
+          "name": "offset",
+          "value_type": "integer",
+          "required": false,
+          "display_name": "Offset",
+          "schema": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000,
+            "default": 0
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rows",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        }
+      ],
+      "result_fields": [
+        "result.rows",
+        "result.count"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "insert_rows",
+      "display_name": "Insert Rows",
+      "description": "Insert Rows in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "supabase"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "rows",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Rows",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rows",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        }
+      ],
+      "result_fields": [
+        "result.rows",
+        "result.count"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "upsert_rows",
+      "display_name": "Upsert Rows",
+      "description": "Upsert Rows in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "supabase"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "rows",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Rows",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "name": "on_conflict",
+          "value_type": "json",
+          "required": true,
+          "display_name": "On Conflict",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rows",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        }
+      ],
+      "result_fields": [
+        "result.rows",
+        "result.count"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "update_rows",
+      "display_name": "Update Rows",
+      "description": "Update Rows in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "supabase"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "filters",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Filters",
+          "schema": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "name": "values",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Values",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rows",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        }
+      ],
+      "result_fields": [
+        "result.rows",
+        "result.count"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "delete_rows",
+      "display_name": "Delete Rows",
+      "description": "Delete Rows in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "supabase"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "filters",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Filters",
+          "schema": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rows",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        }
+      ],
+      "result_fields": [
+        "result.rows",
+        "result.count"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    }
+  ]
+}
