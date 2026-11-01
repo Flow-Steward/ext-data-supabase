@@ -7,6 +7,7 @@ from provider import KIND, WRITES
 from validation import Failure, require, bounded_json, connection_values
 from transport import Transport
 from commands import prepare, result
+from deadline import operation_deadline
 
 
 def handle(payload):
@@ -52,9 +53,10 @@ def handle(payload):
                 "A durable external-effect claim is required.",
                 code="effect_claim_required",
             )
-        transport = Transport(config, secrets)
-        value = result(name, transport.request(method, path, body), expected)
-        bounded_json(value, 480 * 1024)
+        with operation_deadline(config["request_timeout_seconds"]):
+            transport = Transport(config, secrets)
+            value = result(name, transport.request(method, path, body), expected)
+            bounded_json(value, 480 * 1024)
         return {"ok": True, "result": value, "errors": []}
     except Exception as exc:
         known = isinstance(exc, Failure)

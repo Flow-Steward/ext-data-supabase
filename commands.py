@@ -2,7 +2,7 @@
 
 import json
 from urllib.parse import urlencode
-from validation import require, identifier, integer, text
+from validation import require, identifier, integer
 
 
 def scalar(value):
@@ -10,7 +10,11 @@ def scalar(value):
         value is None or type(value) in (str, int, float, bool), "Filter values must be scalar."
     )
     if isinstance(value, str):
-        return text(value, 4096)
+        require(
+            len(value.encode()) <= 4096 and all(ord(c) >= 32 for c in value),
+            "Invalid bounded filter text.",
+        )
+        return value
     return json.dumps(value, allow_nan=False)
 
 
@@ -23,6 +27,13 @@ def filter_pairs(filters):
             "Filter requires column, operator and value.",
         )
         column = identifier(f["column"])
+        # PostgREST removes these from WHERE filters. A mutation containing only
+        # one of these controls would otherwise update/delete the entire table.
+        require(
+            column
+            not in {"select", "columns", "on_conflict", "order", "limit", "offset", "and", "or"},
+            "Reserved PostgREST query controls cannot be filter columns.",
+        )
         op = f["operator"]
         v = f["value"]
         require(

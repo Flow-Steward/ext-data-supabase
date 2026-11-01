@@ -7,7 +7,7 @@ Choose a project connection and pass its ID as `connection_ref`. Account/project
 
 Only the fixed provider HTTPS origin is reachable. DNS is pinned with SDK 0.4 and every address must be public, including when host private networking is allowed. Redirect handling belongs to the SDK pinned opener. Caller URLs are rejected. Credentials are headers only; provider errors and bodies are not reflected in errors.
 
-Every invocation makes one HTTP attempt within a shared 1–30 second deadline. No retries or automatic page loops. A write dispatched before timeout, malformed/partial response, oversized result or HTTP error reports `timeout_unknown`; inspect provider state before reconciling or retrying. Effect claims do not create provider-side deduplication. Output is capped at 480 KiB. JSON nesting is capped at 16; integers outside ±9007199254740991 must be strings.
+Every invocation makes one HTTP attempt within a shared 1–30 second Linux wall-clock deadline. A restored SIGALRM timer bounds DNS, response headers, body reads and decoding; the subprocess runs on its main thread. No retries or automatic page loops. A write dispatched before timeout, malformed/partial response, oversized result or HTTP error reports `timeout_unknown`; inspect provider state before reconciling or retrying. Effect claims do not create provider-side deduplication. Output is capped at 480 KiB. JSON nesting is capped at 16; integers outside ±9007199254740991 must be strings.
 
 ## Operations
 
@@ -18,15 +18,15 @@ Connection config: `project_ref` (20 lowercase alphanumerics), optional `schema`
 - `update_rows`: nonempty `values` and at least one filter.
 - `delete_rows`: at least one filter. There is no unfiltered mutation switch.
 
-Filters are arrays of `{column, operator, value}` with whitelisted `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `is`, `like`. IN accepts up to 100 scalar values with PostgREST quote escaping. IS accepts JSON null/boolean. Columns, tables and schema are closed identifiers, not expressions. Nested JSON column values remain JSON. Provider responses with over 100 rows fail closed; filtered update/delete can affect more rows than the bounded output, so use unique key filters when editing individual rows.
+Filters are arrays of `{column, operator, value}` with whitelisted `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `is`, `like`. IN accepts up to 100 scalar values with PostgREST quote escaping. IS accepts JSON null/boolean. Columns, tables and schema are closed identifiers, not expressions. Filter columns also reject all reserved PostgREST query controls (`select`, `columns`, `on_conflict`, `order`, `limit`, `offset`, `and`, `or`) before effect claim or test-mode processing, so controls cannot stand in for a mutation WHERE clause. Empty strings are valid equality/IN filter data. Nested JSON column values remain JSON. Provider responses with over 100 rows fail closed; filtered update/delete can affect more rows than the bounded output, so use unique key filters when editing individual rows.
 
 Uses `https://{project_ref}.supabase.co/rest/v1/{table}`, schema profile headers, `Prefer: return=representation`, and `resolution=merge-duplicates` for upsert. Scope is database table records; no Storage, Auth admin, SQL or RPC APIs.
 
-Official API contracts checked 2026-11-01 through Context7: [Supabase API snippets](https://github.com/supabase/supabase/blob/master/apps/studio/components/interfaces/Docs/Snippets.ts), [custom schemas](https://supabase.com/docs/guides/api/using-custom-schemas), [JWT authorization](https://supabase.com/docs/guides/auth/jwts), [API keys](https://supabase.com/docs/guides/api/api-keys).
+Official API contracts checked 2026-11-01 through Context7 and the [PostgREST 13 query parser](https://github.com/PostgREST/postgrest/blob/v13.0.8/src/PostgREST/ApiRequest/QueryParams.hs): [Supabase API snippets](https://github.com/supabase/supabase/blob/master/apps/studio/components/interfaces/Docs/Snippets.ts), [custom schemas](https://supabase.com/docs/guides/api/using-custom-schemas), [JWT authorization](https://supabase.com/docs/guides/auth/jwts), [API keys](https://supabase.com/docs/guides/api/api-keys).
 
 ## Verification and release
 
-Tests use mocked pinned HTTP and validate CRUD requests, pagination, input limits, credentials, project context, effect claims, write ambiguity and public DNS enforcement. No cloud credentials were supplied: live provider behavior is not verified.
+Tests use mocked pinned HTTP and validate CRUD requests, pagination, input limits, credentials, project context, effect claims, write ambiguity, complete wall-clock deadlines and public DNS enforcement. The canonical Apache-2.0 license bytes are regression checked. No cloud credentials were supplied: live provider behavior is not verified.
 
 From a Flow Steward checkout run `lint.sh --checks extension-static,extension-tests --extension-root <checkout>` in the disposable audit container. Development dependencies install offline from SDK dev wheels plus audit image site packages.
 
