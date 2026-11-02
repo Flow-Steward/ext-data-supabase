@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "extension_id": "flowsteward.supabase",
   "kind": "tool_provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "release_stage": "active",
   "display_name": "Supabase",
   "description": "Supabase bounded table record REST reads and writes.",
