@@ -1,7 +1,14 @@
 # Supabase workflow extension
 
-Standalone Flow Steward host-v2 table CRUD adapter, extension ID `flowsteward.supabase`.
-Python 3.12+, standard library plus the host-provided `flowsteward-extension-sdk==0.4.0`. No native drivers or runtime dependency downloads. No triggers, webhooks or realtime subscriptions.
+Flow Steward extension `flowsteward.supabase`, version **1.0.2**.
+
+Automate Supabase table records from Flow Steward without writing a custom HTTP integration. List rows with column selection, filters, a limit and an offset; insert batches; upsert against explicit conflict columns; or update and delete rows selected by filters. The extension uses Supabase’s PostgREST table API and supports comparison, membership, null/boolean and LIKE filters. Nested JSON column values remain JSON.
+
+For example, read new requests from a table, enrich them with another workflow step, then upsert a result by its unique external identifier. Update an approval status using a record ID filter, or delete matching records as part of an authorized cleanup workflow. Inserts and upserts accept up to 100 rows with matching column sets; upserts require the chosen conflict columns to be present and nonnull.
+
+Configure a hosted Supabase project reference, schema and API key, with an optional access-token JWT. The selected credentials determine table access and row-level security; service-role credentials can bypass those policies. Update and delete require filters, but those filters can still match many rows. The extension covers table records rather than Storage, Auth administration, SQL, RPC, webhooks or realtime subscriptions.
+
+Create a project Supabase connection with the hosted project reference, optional schema and secret API key; add an access-token JWT when the workflow requires that identity. Ensure the schema/table is exposed through the Data API and the chosen credentials and row-level security policies permit the intended operations.
 
 Choose a project connection and pass its ID as `connection_ref`. Account/project context, matching connection type and reference are mandatory. Mutations require a durable `external_effect_id` and are suppressed in test mode before DNS or HTTP. The selected provider credential authorizes direct table access; record IDs and row values are not rewritten with project prefixes.
 
