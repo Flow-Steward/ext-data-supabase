@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "extension_id": "flowsteward.supabase",
+  "runtime_targets": [
+    "linux-amd64",
+    "linux-arm64"
+  ],
+  "package_script": "scripts/package_extension.py",
+  "test_requirements": [
+    "requirements-dev.txt"
+  ],
+  "test_paths": [
+    "tests/test_contract.py"
+  ],
+  "additional_assets": [],
+  "payload_sources": []
+}
