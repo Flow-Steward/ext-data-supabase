@@ -2,121 +2,151 @@
   "forms": [
     {
       "operation_id": "list_rows",
-      "title": "List Rows",
+      "title": "Read filtered table rows",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name",
+          "required": true,
+          "help_text": "Existing table exposed through the connection’s PostgREST schema. Use a simple table identifier, not SQL or a URL.",
+          "placeholder": "orders"
         },
         {
           "name": "filters",
           "widget_type": "json",
-          "label": "Filters",
-          "required": false
+          "label": "Row filters (JSON)",
+          "required": false,
+          "help_text": "Array of {column,operator,value} objects combined with AND. Operators: eq, neq, gt, gte, lt, lte, in, is, like. Updates and deletes require at least one filter. Use an array value for in; null or boolean for is.",
+          "placeholder": "[{\"column\":\"id\",\"operator\":\"eq\",\"value\":1042}]"
         },
         {
           "name": "select",
           "widget_type": "json",
-          "label": "Select",
-          "required": false
+          "label": "Columns to return (JSON)",
+          "required": false,
+          "help_text": "Optional array of 1–64 simple column names. Omit to return the columns permitted by the server.",
+          "placeholder": "[\"id\",\"status\"]"
         },
         {
           "name": "limit",
           "widget_type": "integer",
-          "label": "Limit",
-          "required": false
+          "label": "Maximum results",
+          "required": false,
+          "help_text": "Maximum records to return in this call, from 1 to 100. This is not an automatic all-pages read.",
+          "placeholder": "20"
         },
         {
           "name": "offset",
           "widget_type": "integer",
-          "label": "Offset",
-          "required": false
+          "label": "Rows to skip",
+          "required": false,
+          "help_text": "Skip this many matching rows before returning up to Maximum results. First page starts at 0; results may change between calls.",
+          "placeholder": "0"
         }
       ]
     },
     {
       "operation_id": "insert_rows",
-      "title": "Insert Rows",
+      "title": "Insert new table rows",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name",
+          "required": true,
+          "help_text": "Existing table exposed through the connection’s PostgREST schema. Use a simple table identifier, not SQL or a URL.",
+          "placeholder": "orders"
         },
         {
           "name": "rows",
           "widget_type": "json",
-          "label": "Rows",
-          "required": true
+          "label": "Rows to save (JSON)",
+          "required": true,
+          "help_text": "Array of 1–100 nonempty row objects with identical column names. For upsert, include non-null values for every conflict column in every row.",
+          "placeholder": "[{\"id\":1042,\"status\":\"approved\"}]"
         }
       ]
     },
     {
       "operation_id": "upsert_rows",
-      "title": "Upsert Rows",
+      "title": "Insert or update rows by unique columns",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name",
+          "required": true,
+          "help_text": "Existing table exposed through the connection’s PostgREST schema. Use a simple table identifier, not SQL or a URL.",
+          "placeholder": "orders"
         },
         {
           "name": "rows",
           "widget_type": "json",
-          "label": "Rows",
-          "required": true
+          "label": "Rows to save (JSON)",
+          "required": true,
+          "help_text": "Array of 1–100 nonempty row objects with identical column names. For upsert, include non-null values for every conflict column in every row.",
+          "placeholder": "[{\"id\":1042,\"status\":\"approved\"}]"
         },
         {
           "name": "on_conflict",
           "widget_type": "json",
-          "label": "On Conflict",
-          "required": true
+          "label": "Unique conflict columns (JSON)",
+          "required": true,
+          "help_text": "Array of 1–8 column names covered by an existing unique constraint. Every row must supply their non-null values; this action does not create the constraint.",
+          "placeholder": "[\"id\"]"
         }
       ]
     },
     {
       "operation_id": "update_rows",
-      "title": "Update Rows",
+      "title": "Update rows matching filters",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name",
+          "required": true,
+          "help_text": "Existing table exposed through the connection’s PostgREST schema. Use a simple table identifier, not SQL or a URL.",
+          "placeholder": "orders"
         },
         {
           "name": "filters",
           "widget_type": "json",
-          "label": "Filters",
-          "required": true
+          "label": "Row filters (JSON)",
+          "required": true,
+          "help_text": "Array of {column,operator,value} objects combined with AND. Operators: eq, neq, gt, gte, lt, lte, in, is, like. Updates and deletes require at least one filter. Use an array value for in; null or boolean for is.",
+          "placeholder": "[{\"column\":\"id\",\"operator\":\"eq\",\"value\":1042}]"
         },
         {
           "name": "values",
           "widget_type": "json",
-          "label": "Values",
-          "required": true
+          "label": "Columns to update (JSON)",
+          "required": true,
+          "help_text": "Nonempty object of column names and their new values. Only these columns change on every row matching the required filters.",
+          "placeholder": "{\"status\":\"approved\"}"
         }
       ]
     },
     {
       "operation_id": "delete_rows",
-      "title": "Delete Rows",
+      "title": "Delete rows matching filters",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name",
+          "required": true,
+          "help_text": "Existing table exposed through the connection’s PostgREST schema. Use a simple table identifier, not SQL or a URL.",
+          "placeholder": "orders"
         },
         {
           "name": "filters",
           "widget_type": "json",
-          "label": "Filters",
-          "required": true
+          "label": "Row filters (JSON)",
+          "required": true,
+          "help_text": "Array of {column,operator,value} objects combined with AND. Operators: eq, neq, gt, gte, lt, lte, in, is, like. Updates and deletes require at least one filter. Use an array value for in; null or boolean for is.",
+          "placeholder": "[{\"column\":\"id\",\"operator\":\"eq\",\"value\":1042}]"
         }
       ]
     }

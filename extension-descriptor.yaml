@@ -5,7 +5,7 @@
     "data_migrations": []
   },
   "extension_id": "flowsteward.supabase",
-  "release_version": "1.0.3",
+  "release_version": "1.0.4",
   "extension_type": "service_extension",
   "identity": {
     "display_name": "Supabase",

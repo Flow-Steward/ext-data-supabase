@@ -3,8 +3,8 @@
     {
       "action_id": "list_rows",
       "workflow_visible": true,
-      "title": "List Rows",
-      "description": "List Rows.",
+      "title": "Read filtered table rows",
+      "description": "Read up to 100 Supabase rows with optional column selection and filters. Use an offset for another page; access follows the connection credentials and database policies.",
       "required_scopes": [
         "extension:invoke"
       ],
@@ -67,8 +67,8 @@
     {
       "action_id": "insert_rows",
       "workflow_visible": true,
-      "title": "Insert Rows",
-      "description": "Insert Rows.",
+      "title": "Insert new table rows",
+      "description": "Insert 1–100 rows into a Supabase table. Every row in a batch must contain the same column names.",
       "required_scopes": [
         "extension:invoke"
       ],
@@ -116,8 +116,8 @@
     {
       "action_id": "upsert_rows",
       "workflow_visible": true,
-      "title": "Upsert Rows",
-      "description": "Upsert Rows.",
+      "title": "Insert or update rows by unique columns",
+      "description": "Save 1–100 rows using explicit conflict columns backed by a database unique constraint. Every row must include non-null conflict values.",
       "required_scopes": [
         "extension:invoke"
       ],
@@ -170,8 +170,8 @@
     {
       "action_id": "update_rows",
       "workflow_visible": true,
-      "title": "Update Rows",
-      "description": "Update Rows.",
+      "title": "Update rows matching filters",
+      "description": "Patch the supplied columns on every matching row. At least one explicit filter is required; omitted columns are preserved.",
       "required_scopes": [
         "extension:invoke"
       ],
@@ -224,8 +224,8 @@
     {
       "action_id": "delete_rows",
       "workflow_visible": true,
-      "title": "Delete Rows",
-      "description": "Delete Rows.",
+      "title": "Delete rows matching filters",
+      "description": "Delete every row matching the supplied filters. At least one explicit filter is required; inspect matches with Read filtered table rows first.",
       "required_scopes": [
         "extension:invoke"
       ],

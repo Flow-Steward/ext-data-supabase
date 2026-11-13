@@ -2,8 +2,8 @@
   "operations": [
     {
       "operation_id": "list_rows",
-      "display_name": "List Rows",
-      "description": "List Rows in the configured database.",
+      "display_name": "Read filtered table rows",
+      "description": "Read up to 100 Supabase rows with optional column selection and filters. Use an offset for another page; access follows the connection credentials and database policies.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -15,13 +15,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -32,7 +32,7 @@
           "name": "filters",
           "value_type": "json",
           "required": false,
-          "display_name": "Filters",
+          "display_name": "Row filters (JSON)",
           "schema": {
             "type": "array",
             "maxItems": 20,
@@ -45,7 +45,7 @@
           "name": "select",
           "value_type": "json",
           "required": false,
-          "display_name": "Select",
+          "display_name": "Columns to return (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -61,7 +61,7 @@
           "name": "limit",
           "value_type": "integer",
           "required": false,
-          "display_name": "Limit",
+          "display_name": "Maximum results",
           "schema": {
             "type": "integer",
             "minimum": 1,
@@ -73,7 +73,7 @@
           "name": "offset",
           "value_type": "integer",
           "required": false,
-          "display_name": "Offset",
+          "display_name": "Rows to skip",
           "schema": {
             "type": "integer",
             "minimum": 0,
@@ -114,8 +114,8 @@
     },
     {
       "operation_id": "insert_rows",
-      "display_name": "Insert Rows",
-      "description": "Insert Rows in the configured database.",
+      "display_name": "Insert new table rows",
+      "description": "Insert 1–100 rows into a Supabase table. Every row in a batch must contain the same column names.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -127,13 +127,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -144,7 +144,7 @@
           "name": "rows",
           "value_type": "json",
           "required": true,
-          "display_name": "Rows",
+          "display_name": "Rows to save (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -187,8 +187,8 @@
     },
     {
       "operation_id": "upsert_rows",
-      "display_name": "Upsert Rows",
-      "description": "Upsert Rows in the configured database.",
+      "display_name": "Insert or update rows by unique columns",
+      "description": "Save 1–100 rows using explicit conflict columns backed by a database unique constraint. Every row must include non-null conflict values.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -200,13 +200,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -217,7 +217,7 @@
           "name": "rows",
           "value_type": "json",
           "required": true,
-          "display_name": "Rows",
+          "display_name": "Rows to save (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -231,7 +231,7 @@
           "name": "on_conflict",
           "value_type": "json",
           "required": true,
-          "display_name": "On Conflict",
+          "display_name": "Unique conflict columns (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -276,8 +276,8 @@
     },
     {
       "operation_id": "update_rows",
-      "display_name": "Update Rows",
-      "description": "Update Rows in the configured database.",
+      "display_name": "Update rows matching filters",
+      "description": "Patch the supplied columns on every matching row. At least one explicit filter is required; omitted columns are preserved.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -289,13 +289,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -306,7 +306,7 @@
           "name": "filters",
           "value_type": "json",
           "required": true,
-          "display_name": "Filters",
+          "display_name": "Row filters (JSON)",
           "schema": {
             "type": "array",
             "maxItems": 20,
@@ -319,7 +319,7 @@
           "name": "values",
           "value_type": "json",
           "required": true,
-          "display_name": "Values",
+          "display_name": "Columns to update (JSON)",
           "schema": {
             "type": "object"
           }
@@ -357,8 +357,8 @@
     },
     {
       "operation_id": "delete_rows",
-      "display_name": "Delete Rows",
-      "description": "Delete Rows in the configured database.",
+      "display_name": "Delete rows matching filters",
+      "description": "Delete every row matching the supplied filters. At least one explicit filter is required; inspect matches with Read filtered table rows first.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -370,13 +370,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -387,7 +387,7 @@
           "name": "filters",
           "value_type": "json",
           "required": true,
-          "display_name": "Filters",
+          "display_name": "Row filters (JSON)",
           "schema": {
             "type": "array",
             "maxItems": 20,
